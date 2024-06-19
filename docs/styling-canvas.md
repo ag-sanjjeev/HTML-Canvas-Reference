@@ -78,6 +78,6 @@ canvas.width = windowWidth;
 
 ---
 
-[&#10094; Previous Topic](./usage-guide.md)&emsp;[Next Topic &#10095;](./usage-guide.md)
+[&#10094; Previous Topic](./usage-guide.md)&emsp;[Next Topic &#10095;](./drawing-shapes.md)
 
 [&#8962; Goto Home Page](../README.md)
