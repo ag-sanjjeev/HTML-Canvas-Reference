@@ -13,6 +13,7 @@ The documentation in this repository will cover following topics:
 1. [Introduction](docs/introduction.md)
 2. [Usage Guide](docs/usage-guide.md)
 3. [Styling Canvas](docs/styling-canvas.md)
+4. [Drawing Shapes](docs/drawing-shapes.md)
 
 These each of above topics will give basic usage and implementation.
 
