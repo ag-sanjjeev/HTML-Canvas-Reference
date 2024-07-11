@@ -37,6 +37,13 @@ To achieve, Effective use this reference. Following these steps:
 
 > Before proceeding this reference, **Please ensure that, you have basic and fundamentals in javascript**.
 
+## Explore
+
+You can checkout my other repositories given below for HTML Canvas Demo:
+1. [Text Scrolling Animation](https://github.com/ag-sanjjeev/text-scroll-animation)
+2. [Canvas Text Animation](https://github.com/ag-sanjjeev/canvas-text-animation)
+3. [Audio Visualizer](https://github.com/ag-sanjjeev/audio-visualizer)
+
 ## Conclusion
 
 `HTML Canvas` is one of the advanced usage in the web pages. This reference will give a beginner-friendly guide to approach canvas using javascript, covering important and most useful concepts and topics. Whether you are student, designer or developer, this repository will give quick reference to understand HTML Canvas concepts from demo topics.
