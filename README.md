@@ -22,6 +22,7 @@ The documentation in this repository will cover following topics:
 10. [Dot Matrix Grid](docs/dot-matrix-grid.md)
 11. [Gradient Grid](docs/gradient-grid.md)
 12. [Gradient Animation](docs/gradient-animation.md)
+13. [Flower Animation](docs/flower-animation.md)
 
 These each of above topics will give basic usage and implementation.
 
