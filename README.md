@@ -17,6 +17,7 @@ The documentation in this repository will cover following topics:
 5. [Drawing Lines](docs/drawing-lines.md)
 6. [Moving Lines](docs/moving-lines.md)
 7. [Responsive Animation](docs/responsive-animation.md)
+8. [Mouse Movement Animation](docs/mouse-movement-animation.md)
 
 These each of above topics will give basic usage and implementation.
 
