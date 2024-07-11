@@ -1,15 +1,12 @@
-# &#9873; Responsive Animation:
+# &#9873; Mouse Movement Animation:
 
-This will give you basic idea about Responsive Animation in HTML canvas
+This will give you basic idea about Mouse Movement Animation to draw line based on mouse click and mouse co-ordinate positions in HTML canvas
 
 ## Steps involved:
 
-- For resizing browser window, the fixed style of canvas will be the same.
-- To Update dimensions of canvas size based on browser window resize event.
-- When re-setting size of canvas that will affect the created frame and or animation.
-- To avoid that canvas glitches, use this `cancelAnimationFrame(animationFrameReference)` method.
-- Which will stops the previous frame of animation.
-- Once everything is re-setted then again call `requestAnimationFrame(callback)` method. 
+- This can be done with help of two mouse events.
+- For setting starting point of line can be done with `click` event.
+- For updating ending point of line can be done with `mousemove` event.
 
 
 > HTML Code:
@@ -47,6 +44,18 @@ let drawing1;
 // Reference for animation frame
 let animationFrameReference;
 
+// mouse clicked co-ordinate
+let mouseClicked = {
+	x: 0,
+	y: 0
+};
+
+// mouse movement co-ordinate 
+let mouseMove = {
+	x: 0,
+	y: 0
+};
+
 // Window load event
 window.onload = function () {
 
@@ -83,6 +92,17 @@ window.addEventListener('resize', function () {
 	drawing1.animate();
 });
 
+// adding mouse click event listener
+window.addEventListener('click', function(e) {
+	mouseClicked.x = e.x;
+	mouseClicked.y = e.y; 
+});
+
+// adding mouse over event listener
+window.addEventListener('mousemove', function(e) {
+	mouseMove.x = e.x;
+	mouseMove.y = e.y;
+});
 
 // Class DrawField
 
@@ -107,7 +127,7 @@ class DrawField {
 	}
 
 	// private draw method
-	#draw (x, y, length) {		
+	#draw () {		
 
 		// beginning the drawing path
 		this.#ctx.beginPath();
@@ -115,11 +135,14 @@ class DrawField {
 		// Setting stroke color for drawing
 		this.#ctx.strokeStyle = 'white';
 
+		// Setting stroke width
+		this.#ctx.lineWidth = 5;
+
 		// Moving to starting point for drawing
-		this.#ctx.moveTo(x, y);
+		this.#ctx.moveTo(mouseClicked.x, mouseClicked.y);
 
 		// Drawing to the given length
-		this.#ctx.lineTo(x + length, y + length);
+		this.#ctx.lineTo(mouseMove.x, mouseMove.y);
 
 		// Drawing into the canvas using stroke method
 		this.#ctx.stroke();
@@ -134,12 +157,8 @@ class DrawField {
 		// Clearing previous animation frame
 		this.#ctx.clearRect(0, 0, this.#width, this.#height);
 
-		// incrementing co-ordinates
-		this.x += 0.5;
-		this.y += 1.5;
-
 		// Calling draw method
-		this.#draw(this.x, this.y, 300);	
+		this.#draw();	
 
 		// Calling infinite animation loop
 		animationFrameReference = requestAnimationFrame(this.animate.bind(this));
@@ -150,6 +169,6 @@ class DrawField {
 
 ---
 
-[&#10094; Previous Topic](./moving-lines.md)&emsp;[Next Topic &#10095;](./mouse-movement-animation.md)
+[&#10094; Previous Topic](./responsive-animation.md)&emsp;[Next Topic &#10095;](./mouse-movement-animation.md)
 
 [&#8962; Goto Home Page](../README.md)
