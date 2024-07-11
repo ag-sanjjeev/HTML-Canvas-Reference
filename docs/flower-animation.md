@@ -1,28 +1,16 @@
-# &#9873; Gradient Animation:
+# &#9873; Flower Animation:
 
-This will give you basic idea about implementation of gradient animation in HTML canvas
+This will give you basic idea about implementation of drawing flower animation out of circles in HTML canvas
 
 ## Steps involved:
 
 - This can be drawn by three levels.
-- First, create dot gradient grid drawing technique.
-- Second, Get mouse co-ordinates using the `mousemove` event.
-- Finally, add line draw technique with some mouse hover effect as below mentioned.
-- This will make black color on mouse hover position with some radius of distance.
+- First, calculate starting point of drawing.
+- Second, calculate radius of circle before start drawing.
+- Third, draw circle using `arc` method with co-ordinates and dimensions.
+- Fourth, update the co-ordinates and dimensions after each circle drawn.
+- Continuously draw this circles until the given number of circles to draw.
 
-```js
-// applying mouse hover effect
-let posX = x;
-let posY = y;
-let dx = mouseMove.x - x;
-let dy = mouseMove.y - y;
-let distance = Math.sqrt(dx * dx + dy * dy);
-
-this.pixelSize = distance / 10;
-
-// Drawing to the given length
-this.#ctx.lineTo(x + Math.cos(angle)*this.pixelSize, y + Math.sin(angle)*this.pixelSize);
-``` 
 
 > HTML Code:
 
@@ -58,18 +46,6 @@ let drawing1;
 
 // Reference for animation frame
 let animationFrameReference;
-
-// mouse clicked co-ordinate
-let mouseClicked = {
-	x: 0,
-	y: 0
-};
-
-// mouse movement co-ordinate 
-let mouseMove = {
-	x: 0,
-	y: 0
-};
 
 // Window load event
 window.onload = function () {
@@ -107,18 +83,6 @@ window.addEventListener('resize', function () {
 	drawing1.animate();
 });
 
-// adding mouse click event listener
-window.addEventListener('click', function(e) {
-	mouseClicked.x = e.x;
-	mouseClicked.y = e.y; 
-});
-
-// adding mouse over event listener
-window.addEventListener('mousemove', function(e) {
-	mouseMove.x = e.x;
-	mouseMove.y = e.y;
-});
-
 // Class DrawField
 
 class DrawField {
@@ -140,7 +104,7 @@ class DrawField {
 
 		// Creating animation frame interval for uniform animation in all kind of machine without lag
 		// interval of 60 frames per 1000 ms
-		this.interval = 1000/10;
+		this.interval = 1000/60;
 
 		// setting last animation time stamp
 		this.lastTimeStamp = 0;
@@ -148,11 +112,8 @@ class DrawField {
 		// setting initial timer
 		this.timer = 0;
 
-		// dot matrix cell size
-		this.cellSize = 15;
-
-		// dot matrix pixel size
-		this.pixelSize = 70;
+		// circle size
+		this.circleSize = 5;
 
 		// line width or stroke width
 		this.lineWidth = 1;
@@ -169,6 +130,9 @@ class DrawField {
 
 		// change in radius
 		this.dr = 0.003;
+
+		// interation number
+		this.number = 0;
 
 		console.log('DrawField started...');	
 	}
@@ -187,38 +151,34 @@ class DrawField {
 		this.gradient.addColorStop('0.9', '#BDBDBD');
 	}
 
-	// private draw method
-	#drawLine (x, y, angle) {		
+	// private draw circle method
+	#drawCircle() {
+		// change these values to change animation flower pattern
+		let noOfCircles = 5000;
+		let gap = 30;
+		let sizeFactor = 5.75;
+		let numberIncremental = 0.01;
+		let circleSizeIncremental = 0.1;
 
-		// beginning the drawing path
+		let angle = this.number * noOfCircles;
+		this.radius = sizeFactor * Math.sqrt(this.number); 
+		let scale = this.radius * gap;
+		this.x = scale * Math.sin(angle) + (this.#width/2);
+		this.y = scale * Math.cos(angle) + (this.#height/2);
+		let startAngle = 0;
+		let endAngle = Math.PI * 2;
+
+		this.#ctx.fillStyle = this.gradient;
+		this.#ctx.strokeStyle = 'white';//this.gradient;
 		this.#ctx.beginPath();
-
-		// Setting stroke color with new linear gradient color for drawing
-		this.#ctx.strokeStyle = this.gradient;
-
-		// Setting stroke width
-		this.#ctx.lineWidth = this.lineWidth;
-
-		// Moving to starting point for drawing
-		this.#ctx.moveTo(x, y);
-
-		// applying mouse hover effect
-		let posX = x;
-		let posY = y;
-		let dx = mouseMove.x - x;
-		let dy = mouseMove.y - y;
-		let distance = Math.sqrt(dx * dx + dy * dy);
-
-		this.pixelSize = distance / 10;
-
-		// Drawing to the given length
-		this.#ctx.lineTo(x + Math.cos(angle)*this.pixelSize, y + Math.sin(angle)*this.pixelSize);
-
-		// Drawing into the canvas using stroke method
-		this.#ctx.stroke();
-
-		// Closing the drawing path
+		this.#ctx.arc(this.x, this.y, this.circleSize, startAngle, endAngle);
 		this.#ctx.closePath();
+		this.#ctx.fill();
+		this.#ctx.stroke();	
+
+		this.number += numberIncremental;
+		this.circleSize += circleSizeIncremental;		
+
 	}
 
 	// public animate method with time stamp argument
@@ -233,26 +193,10 @@ class DrawField {
 		// drawing when only timer is greater than the interval otherwise idle until timer gets reach
 		if (this.timer > this.interval) {
 			// Clearing previous animation frame
-			this.#ctx.clearRect(0, 0, this.#width, this.#height);
+			// this.#ctx.clearRect(0, 0, this.#width, this.#height);
 
-			// dot matrix by cell size and pixel size
-			// drawing in column
-			for (var y = 0; y < this.#height; y += this.cellSize) {
-				// drawing in row
-				for (var x = 0; x < this.#width; x += this.cellSize) {
-
-					this.radius += this.dr;
-
-					if (this.radius > 5 || this.radius < -5) {
-						this.dr *= -1;
-					}
-
-					var angle = (Math.cos(x/2 * 0.01) + Math.sin(y * 0.01)) * this.radius;
-					// Calling drawLine method
-					this.#drawLine(x, y, angle);
-				}
-			}
-
+			// draw circle
+			this.#drawCircle();
 
 			this.timer = 0;					
 		
@@ -260,8 +204,14 @@ class DrawField {
 			this.timer += deltaTime;
 		}
 
-		// Calling infinite animation loop and default time stamp argument passed
-		animationFrameReference = requestAnimationFrame(this.animate.bind(this));
+		// When the drawing reaches window width and height then animation cancels 
+		if (this.x > this.#width && this.y > this.#height) {
+			// Previous animation to be cancel out
+			cancelAnimationFrame(animationFrameReference);
+		} else {
+			// Calling infinite animation loop and default time stamp argument passed
+			animationFrameReference = requestAnimationFrame(this.animate.bind(this));
+		}
 
 	}
 
@@ -270,6 +220,6 @@ class DrawField {
 
 ---
 
-[&#10094; Previous Topic](./gradient-grid.md)&emsp;[Next Topic &#10095;](./flower-animation.md)
+[&#10094; Previous Topic](./gradient-animation.md)&emsp;[Next Topic &#10095;](./flower-animation.md)
 
 [&#8962; Goto Home Page](../README.md)
