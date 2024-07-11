@@ -1,14 +1,15 @@
-# &#9873; Moving Lines:
+# &#9873; Responsive Animation:
 
-This will give you basic idea about move the lines created in HTML canvas
+This will give you basic idea about Responsive Animation in HTML canvas
 
 ## Steps involved:
 
-- Moving lines can be possible by clearing old frame and drawing new frame on certain time interval.
-- For clearing old frame by using this `clearRect(0, 0, canvaswidth, canvasheight)`
-- Re-drawing the frame by re-calling the drawing logics.
-- To request this continuesly using `requestAnimationFrame(callback)`.
-- For effective use of re-calling, avoid setInterval or any other loops.
+- For resizing browser window, the fixed style of canvas will be the same.
+- To Update dimensions of canvas size based on browser window resize event.
+- When re-setting size of canvas that will affect the created frame and or animation.
+- To avoid that canvas glitches, use this `cancelAnimationFrame(animationFrameReference)` method.
+- Which will stops the previous frame of animation.
+- Once everything is re-setted then again call `requestAnimationFrame(callback)` method. 
 
 
 > HTML Code:
@@ -38,14 +39,22 @@ This will give you basic idea about move the lines created in HTML canvas
 > JavaScript Code:
 
 ```js
+// Global scope variable
+let canvas;
+let ctx;
+let drawing1;
+
+// Reference for animation frame
+let animationFrameReference;
+
 // Window load event
 window.onload = function () {
 
 	// Get access to HTML canvas tag
-	let canvas = document.getElementById('canvas');
+	canvas = document.getElementById('canvas');
 
 	// Getting special method context for 2d option
-	let ctx = canvas.getContext('2d');
+	ctx = canvas.getContext('2d');
 
 	// Applying background color to canvas
 	canvas.style.backgroundColor = 'black';
@@ -55,9 +64,25 @@ window.onload = function () {
 	canvas.height = window.innerHeight - 5;
 
 	// Creating DrawField class object
-	const drawing1 = new DrawField(ctx, canvas.width, canvas.height);
+	drawing1 = new DrawField(ctx, canvas.width, canvas.height);
 	drawing1.animate();
 };
+
+// Window resize event
+window.addEventListener('resize', function () {
+
+	// Previous animation to be cancel out
+	cancelAnimationFrame(animationFrameReference);
+
+	// accessing from global scope
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight - 5;	
+
+	// Re Creating DrawField class object when window resized
+	drawing1 = new DrawField(ctx, canvas.width, canvas.height);
+	drawing1.animate();
+});
+
 
 // Class DrawField
 
@@ -84,7 +109,7 @@ class DrawField {
 	// private draw method
 	#draw (x, y, length) {		
 
-		// begining the drawing path
+		// beginning the drawing path
 		this.#ctx.beginPath();
 
 		// Setting stroke color for drawing
@@ -117,7 +142,7 @@ class DrawField {
 		this.#draw(this.x, this.y, 300);	
 
 		// Calling infinite animation loop
-		requestAnimationFrame(this.animate.bind(this));
+		animationFrameReference = requestAnimationFrame(this.animate.bind(this));
 	}
 
 }
@@ -125,6 +150,6 @@ class DrawField {
 
 ---
 
-[&#10094; Previous Topic](./drawing-lines.md)&emsp;[Next Topic &#10095;](./responsive-animation.md)
+[&#10094; Previous Topic](./moving-lines.md)&emsp;[Next Topic &#10095;](./responsive-animation.md)
 
 [&#8962; Goto Home Page](../README.md)
