@@ -18,6 +18,7 @@ The documentation in this repository will cover following topics:
 6. [Moving Lines](docs/moving-lines.md)
 7. [Responsive Animation](docs/responsive-animation.md)
 8. [Mouse Movement Animation](docs/mouse-movement-animation.md)
+9. [Delta Time](docs/delta-time.md)
 
 These each of above topics will give basic usage and implementation.
 
