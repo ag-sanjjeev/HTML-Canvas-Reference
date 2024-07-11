@@ -1,13 +1,29 @@
-# &#9873; Mouse Movement Animation:
+# &#9873; Delta Time:
 
-This will give you basic idea about Mouse Movement Animation to draw line based on mouse click and mouse co-ordinate positions in HTML canvas
+This will give you basic idea about implementation of calculating and implementing delta time concept in HTML canvas
 
 ## Steps involved:
 
-- This can be done with help of two mouse events.
-- For setting starting point of line can be done with `click` event.
-- For updating ending point of line can be done with `mousemove` event.
+- This is important concept in canvas animation.
+- To animate without any performance lag on different devices, Then delta time concepts should be used.
+- For one second or 1000 milli-second, We can set frames per second to be played.
+- This will avoid any performance lag one different devices, due to limiting and setting Frames Per Second.
+- This can be done by utilizing default argument passed in `requestAnimationFrame(callback)` method.
+- Calculating delta time `const deltaTime = timeStamp - lastTimeStamp;`
+- Setting 30 FPS `let interval = 1000/30;`. Which denotes 1000 milli-seconds divided by 30 Frames.
+- Plays animation once the interval reached by comparing current timestamp. otherwise increments the timer.
+- For the low end specification devices, the deltaTime is greater than high end devices.
+- This drop some animation frames with given FPS range based on the performance. 
 
+```js
+// drawing when only timer is greater than the interval otherwise idle until timer gets reach
+if (timer > interval) {
+ ...
+ ...
+} else {
+	timer += deltaTime;
+}
+``` 
 
 > HTML Code:
 
@@ -123,6 +139,16 @@ class DrawField {
 		this.x = 0;
 		this.y = 0;
 
+		// Creating animation frame interval for uniform animation in all kind of machine without lag
+		// interval of 60 frames per 1000 ms
+		this.interval = 1000/30;
+
+		// setting last animation time stamp
+		this.lastTimeStamp = 0;
+
+		// setting initial timer
+		this.timer = 0;
+
 		console.log('DrawField started...');	
 	}
 
@@ -151,17 +177,32 @@ class DrawField {
 		this.#ctx.closePath();
 	}
 
-	// public animate method
-	animate () {
+	// public animate method with time stamp argument
+	animate (timeStamp=0) {
 
-		// Clearing previous animation frame
-		this.#ctx.clearRect(0, 0, this.#width, this.#height);
+		// calculating delta time
+		const deltaTime = timeStamp - this.lastTimeStamp;
 
-		// Calling draw method
-		this.#draw();	
+		// setting current time stamp for next animation frame
+		this.lastTimeStamp = timeStamp;		
 
-		// Calling infinite animation loop
+		// drawing when only timer is greater than the interval otherwise idle until timer gets reach
+		if (this.timer > this.interval) {
+			// Clearing previous animation frame
+			this.#ctx.clearRect(0, 0, this.#width, this.#height);
+
+			// Calling draw method
+			this.#draw();	
+
+			this.timer = 0;					
+		
+		} else {
+			this.timer += deltaTime;
+		}
+
+		// Calling infinite animation loop and default time stamp argument passed
 		animationFrameReference = requestAnimationFrame(this.animate.bind(this));
+
 	}
 
 }
@@ -169,6 +210,6 @@ class DrawField {
 
 ---
 
-[&#10094; Previous Topic](./responsive-animation.md)&emsp;[Next Topic &#10095;](./delta-time.md)
+[&#10094; Previous Topic](./mouse-movement-animation.md)&emsp;[Next Topic &#10095;](./delta-time.md)
 
 [&#8962; Goto Home Page](../README.md)
