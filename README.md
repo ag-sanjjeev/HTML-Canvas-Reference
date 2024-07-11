@@ -4,7 +4,7 @@ This repository contains basic documentation and reference for `HTML CANVAS`, To
 
 ## Purpose
 
-This repository will helpful to understand and effective usages of the `HTML Canvas` tag with the help of `JavaScript`. 
+This repository will helpful to understand and effective usages of the `HTML Canvas` tag with the help of `JavaScript` and Help with creating simple animations using it. 
 
 ## Contents
 
@@ -39,7 +39,7 @@ To achieve, Effective use this reference. Following these steps:
 
 ## Conclusion
 
-`HTML Canvas` is one of the advanced usage in the web pages. This reference will give a beginner-friendly guide to approach canvas using javascript, covering important and most useful concepts and topics. Whether you are student, designer or developer, this repository will give quick reference to understand HTML Canvas.
+`HTML Canvas` is one of the advanced usage in the web pages. This reference will give a beginner-friendly guide to approach canvas using javascript, covering important and most useful concepts and topics. Whether you are student, designer or developer, this repository will give quick reference to understand HTML Canvas concepts from demo topics.
 
 ## Contribution
 
