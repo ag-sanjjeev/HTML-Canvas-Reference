@@ -1,24 +1,22 @@
-# &#9873; Dot Matrix Grid:
+# &#9873; Gradient Grid:
 
-This will give you basic idea about implementation of dot matrix grid in HTML canvas
+This will give you basic idea about implementation of gradient grid in HTML canvas
 
 ## Steps involved:
 
-- This can be drawn by two levels.
-- First, drawing a dot by `moveTo` and `lineTo` method.
-- Finally, drawing this dot repeatedly by row and column.
-- `cellSize` defines gap between any other two grid points.
+- This can be drawn by three levels.
+- First, dot grid drawing technique.
+- Second, generate linearGradient using `createLinearGradient` and `addColorStop` methods.
+- Finally, apply that generated linearGradient into `strokeStyle` or `fillStyle`, whichever method you prefer.
+- `colorStop` defines different color at specified distance.
 
 ```js
-// drawing in column
-for (var y = 0; y < this.#height; y += this.cellSize) {
-	// drawing in row
-	for (var x = 0; x < this.#width; x += this.cellSize) {
-
-		// Calling drawLine method
-		this.#drawLine(x, y);					
-	}
-}
+this.gradient = this.#ctx.createLinearGradient(0, 0, this.#width, this.#height);
+this.gradient.addColorStop('0.1', '#E57373');
+...
+...
+...
+this.gradient.addColorStop('0.9', '#BDBDBD');
 ``` 
 
 > HTML Code:
@@ -113,7 +111,7 @@ class DrawField {
 
 		// Creating animation frame interval for uniform animation in all kind of machine without lag
 		// interval of 60 frames per 1000 ms
-		this.interval = 1000/30;
+		this.interval = 1000/15;
 
 		// setting last animation time stamp
 		this.lastTimeStamp = 0;
@@ -122,12 +120,35 @@ class DrawField {
 		this.timer = 0;
 
 		// dot matrix cell size
-		this.cellSize = 10;
+		this.cellSize = 20;
 
 		// dot matrix pixel size
-		this.pixelSize = 2;
+		this.pixelSize = 10;
+
+		// line width or stroke width
+		this.lineWidth = 2;
+
+		// gradient property
+		this.gradient;
+
+		// calling gradient method to add linear gradient colors
+		this.#linearGradient();
 
 		console.log('DrawField started...');	
+	}
+
+	// private gradient method
+	#linearGradient() {
+		this.gradient = this.#ctx.createLinearGradient(0, 0, this.#width, this.#height);
+		this.gradient.addColorStop('0.1', '#E57373');
+		this.gradient.addColorStop('0.2', '#F06292');
+		this.gradient.addColorStop('0.3', '#BA68C8');
+		this.gradient.addColorStop('0.4', '#5C6BC0');
+		this.gradient.addColorStop('0.5', '#42A5F5');
+		this.gradient.addColorStop('0.6', '#4CAF50');
+		this.gradient.addColorStop('0.7', '#FFEB3B');
+		this.gradient.addColorStop('0.8', '#FF9800');
+		this.gradient.addColorStop('0.9', '#BDBDBD');
 	}
 
 	// private draw method
@@ -136,11 +157,11 @@ class DrawField {
 		// beginning the drawing path
 		this.#ctx.beginPath();
 
-		// Setting stroke color for drawing
-		this.#ctx.strokeStyle = 'white';
+		// Setting stroke color with new linear gradient color for drawing
+		this.#ctx.strokeStyle = this.gradient;
 
 		// Setting stroke width
-		this.#ctx.lineWidth = 1;
+		this.#ctx.lineWidth = this.lineWidth;
 
 		// Moving to starting point for drawing
 		this.#ctx.moveTo(x, y);
@@ -197,6 +218,6 @@ class DrawField {
 
 ---
 
-[&#10094; Previous Topic](./delta-time.md)&emsp;[Next Topic &#10095;](./gradient-grid.md)
+[&#10094; Previous Topic](./dot-matrix-grid.md)&emsp;[Next Topic &#10095;](./gradient-grid.md)
 
 [&#8962; Goto Home Page](../README.md)

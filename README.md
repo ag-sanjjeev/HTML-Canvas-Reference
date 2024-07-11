@@ -19,7 +19,8 @@ The documentation in this repository will cover following topics:
 7. [Responsive Animation](docs/responsive-animation.md)
 8. [Mouse Movement Animation](docs/mouse-movement-animation.md)
 9. [Delta Time](docs/delta-time.md)
-9. [Dot Matrix Grid](docs/dot-matrix-grid.md)
+10. [Dot Matrix Grid](docs/dot-matrix-grid.md)
+11. [Gradient Grid](docs/gradient-grid.md)
 
 These each of above topics will give basic usage and implementation.
 
