@@ -15,6 +15,7 @@ The documentation in this repository will cover following topics:
 3. [Styling Canvas](docs/styling-canvas.md)
 4. [Drawing Shapes](docs/drawing-shapes.md)
 5. [Drawing Lines](docs/drawing-lines.md)
+5. [Moving Lines](docs/moving-lines.md)
 
 These each of above topics will give basic usage and implementation.
 

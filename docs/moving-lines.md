@@ -1,16 +1,14 @@
-# &#9873; Drawing Lines:
+# &#9873; Moving Lines:
 
-This will give you basic idea about creating lines in HTML canvas
+This will give you basic idea about move the lines created in HTML canvas
 
 ## Steps involved:
 
-- Drawing lines should starts with `beginPath()` method.
-- It gives ability to draw lines with help of two methods.
-- First, we need to set starting point of line using this `moveTo(x, y)` method.
-- Second, Stroked by `stroke()` method.
-- Third, we need to set ending point of line using this `lineTo(x + length, y + length)` method.
-- Both accept x and y co-ordinates.
-- Finally, We should close the drawing path by `closePath()` method.
+- Moving lines can be possible by clearing old frame and drawing new frame on certain time interval.
+- For clearing old frame by using this `clearRect(0, 0, canvaswidth, canvasheight)`
+- Re-drawing the frame by re-calling the drawing logics.
+- To request this continuesly using `requestAnimationFrame(callback)`.
+- For effective use of re-calling, avoid setInterval or any other loops.
 
 
 > HTML Code:
@@ -58,7 +56,7 @@ window.onload = function () {
 
 	// Creating DrawField class object
 	const drawing1 = new DrawField(ctx, canvas.width, canvas.height);
-
+	drawing1.animate();
 };
 
 // Class DrawField
@@ -77,11 +75,10 @@ class DrawField {
 		this.#ctx = ctx;
 		this.#width = width;
 		this.#height = height;
+		this.x = 0;
+		this.y = 0;
 
-		console.log('DrawField started...');
-
-		// Calling draw method
-		this.#draw(150, 500, 300);	
+		console.log('DrawField started...');	
 	}
 
 	// private draw method
@@ -106,11 +103,28 @@ class DrawField {
 		this.#ctx.closePath();
 	}
 
+	// public animate method
+	animate () {
+
+		// Clearing previous animation frame
+		this.#ctx.clearRect(0, 0, this.#width, this.#height);
+
+		// incrementing co-ordinates
+		this.x += 0.5;
+		this.y += 1.5;
+
+		// Calling draw method
+		this.#draw(this.x, this.y, 300);	
+
+		// Calling infinite animation loop
+		requestAnimationFrame(this.animate.bind(this));
+	}
+
 }
 ```
 
 ---
 
-[&#10094; Previous Topic](./drawing-shapes.md)&emsp;[Next Topic &#10095;](./moving-lines.md)
+[&#10094; Previous Topic](./drawing-lines.md)&emsp;[Next Topic &#10095;](./moving-lines.md)
 
 [&#8962; Goto Home Page](../README.md)
