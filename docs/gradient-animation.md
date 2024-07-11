@@ -1,22 +1,27 @@
-# &#9873; Gradient Grid:
+# &#9873; Gradient Animation:
 
-This will give you basic idea about implementation of gradient grid in HTML canvas
+This will give you basic idea about implementation of gradient animation in HTML canvas
 
 ## Steps involved:
 
 - This can be drawn by three levels.
-- First, create dot grid drawing technique.
-- Second, generate linearGradient using `createLinearGradient` and `addColorStop` methods.
-- Finally, apply that generated linearGradient into `strokeStyle` or `fillStyle`, whichever method you prefer.
-- `colorStop` defines different color at specified distance.
+- First, create dot gradient grid drawing technique.
+- Second, Get mouse co-ordinates using the `mousemove` event.
+- Finally, add line draw technique with some mouse hover effect as below mentioned.
+- This will make black color on mouse hover position with some radius of distance.
 
 ```js
-this.gradient = this.#ctx.createLinearGradient(0, 0, this.#width, this.#height);
-this.gradient.addColorStop('0.1', '#E57373');
-...
-...
-...
-this.gradient.addColorStop('0.9', '#BDBDBD');
+// applying mouse hover effect
+let posX = x;
+let posY = y;
+let dx = mouseMove.x - x;
+let dy = mouseMove.y - y;
+let distance = Math.sqrt(dx * dx + dy * dy);
+
+this.pixelSize = distance / 10;
+
+// Drawing to the given length
+this.#ctx.lineTo(x + Math.cos(angle)*this.pixelSize, y + Math.sin(angle)*this.pixelSize);
 ``` 
 
 > HTML Code:
@@ -54,6 +59,18 @@ let drawing1;
 // Reference for animation frame
 let animationFrameReference;
 
+// mouse clicked co-ordinate
+let mouseClicked = {
+	x: 0,
+	y: 0
+};
+
+// mouse movement co-ordinate 
+let mouseMove = {
+	x: 0,
+	y: 0
+};
+
 // Window load event
 window.onload = function () {
 
@@ -90,6 +107,18 @@ window.addEventListener('resize', function () {
 	drawing1.animate();
 });
 
+// adding mouse click event listener
+window.addEventListener('click', function(e) {
+	mouseClicked.x = e.x;
+	mouseClicked.y = e.y; 
+});
+
+// adding mouse over event listener
+window.addEventListener('mousemove', function(e) {
+	mouseMove.x = e.x;
+	mouseMove.y = e.y;
+});
+
 // Class DrawField
 
 class DrawField {
@@ -111,7 +140,7 @@ class DrawField {
 
 		// Creating animation frame interval for uniform animation in all kind of machine without lag
 		// interval of 60 frames per 1000 ms
-		this.interval = 1000/15;
+		this.interval = 1000/10;
 
 		// setting last animation time stamp
 		this.lastTimeStamp = 0;
@@ -120,19 +149,26 @@ class DrawField {
 		this.timer = 0;
 
 		// dot matrix cell size
-		this.cellSize = 20;
+		this.cellSize = 15;
 
 		// dot matrix pixel size
-		this.pixelSize = 10;
+		this.pixelSize = 70;
 
 		// line width or stroke width
-		this.lineWidth = 2;
+		this.lineWidth = 1;
 
 		// gradient property
 		this.gradient;
 
 		// calling gradient method to add linear gradient colors
 		this.#linearGradient();
+
+		// animation properties
+		// radius property
+		this.radius = 0;
+
+		// change in radius
+		this.dr = 0.003;
 
 		console.log('DrawField started...');	
 	}
@@ -152,7 +188,7 @@ class DrawField {
 	}
 
 	// private draw method
-	#drawLine (x, y) {		
+	#drawLine (x, y, angle) {		
 
 		// beginning the drawing path
 		this.#ctx.beginPath();
@@ -166,8 +202,17 @@ class DrawField {
 		// Moving to starting point for drawing
 		this.#ctx.moveTo(x, y);
 
+		// applying mouse hover effect
+		let posX = x;
+		let posY = y;
+		let dx = mouseMove.x - x;
+		let dy = mouseMove.y - y;
+		let distance = Math.sqrt(dx * dx + dy * dy);
+
+		this.pixelSize = distance / 10;
+
 		// Drawing to the given length
-		this.#ctx.lineTo(x + this.pixelSize, y + this.pixelSize);
+		this.#ctx.lineTo(x + Math.cos(angle)*this.pixelSize, y + Math.sin(angle)*this.pixelSize);
 
 		// Drawing into the canvas using stroke method
 		this.#ctx.stroke();
@@ -196,8 +241,15 @@ class DrawField {
 				// drawing in row
 				for (var x = 0; x < this.#width; x += this.cellSize) {
 
+					this.radius += this.dr;
+
+					if (this.radius > 5 || this.radius < -5) {
+						this.dr *= -1;
+					}
+
+					var angle = (Math.cos(x/2 * 0.01) + Math.sin(y * 0.01)) * this.radius;
 					// Calling drawLine method
-					this.#drawLine(x, y);					
+					this.#drawLine(x, y, angle);
 				}
 			}
 
@@ -218,6 +270,6 @@ class DrawField {
 
 ---
 
-[&#10094; Previous Topic](./dot-matrix-grid.md)&emsp;[Next Topic &#10095;](./gradient-animation.md)
+[&#10094; Previous Topic](./gradient-grid.md)&emsp;[Next Topic &#10095;](./gradient-animation.md)
 
 [&#8962; Goto Home Page](../README.md)
