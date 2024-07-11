@@ -107,6 +107,6 @@ context.closePath();
 
 ---
 
-[&#10094; Previous Topic](./styling-canvas.md)&emsp;[Next Topic &#10095;](./drawing-shapes.md)
+[&#10094; Previous Topic](./styling-canvas.md)&emsp;[Next Topic &#10095;](./drawing-lines.md)
 
 [&#8962; Goto Home Page](../README.md)
