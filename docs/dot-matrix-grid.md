@@ -1,27 +1,23 @@
-# &#9873; Delta Time:
+# &#9873; Dot Matrix Grid:
 
-This will give you basic idea about implementation of calculating and implementing delta time concept in HTML canvas
+This will give you basic idea about implementation of dot matrix grid in HTML canvas
 
 ## Steps involved:
 
-- This is important concept in canvas animation.
-- To animate without any performance lag on different devices, Then delta time concepts should be used.
-- For one second or 1000 milli-second, We can set frames per second to be played.
-- This will avoid any performance lag one different devices, due to limiting and setting Frames Per Second.
-- This can be done by utilizing default argument passed in `requestAnimationFrame(callback)` method.
-- Calculating delta time `const deltaTime = timeStamp - lastTimeStamp;`
-- Setting 30 FPS `let interval = 1000/30;`. Which denotes 1000 milli-seconds divided by 30 Frames.
-- Plays animation once the interval reached by comparing current timestamp. otherwise increments the timer.
-- For the low end specification devices, the deltaTime is greater than high end devices.
-- This drop some animation frames with given FPS range based on the performance. 
+- This can be drawn by two levels.
+- First, drawing a dot by `moveTo` and `lineTo` method.
+- Finally, drawing this dot repeatedly by row and column.
+- `cellSize` defines gap between any other two grid points.
 
 ```js
-// drawing when only timer is greater than the interval otherwise idle until timer gets reach
-if (timer > interval) {
- ...
- ...
-} else {
-	timer += deltaTime;
+// drawing in column
+for (var y = 0; y < this.#height; y += this.cellSize) {
+	// drawing in row
+	for (var x = 0; x < this.#width; x += this.cellSize) {
+
+		// Calling drawLine method
+		this.#drawLine(x, y);					
+	}
 }
 ``` 
 
@@ -60,18 +56,6 @@ let drawing1;
 // Reference for animation frame
 let animationFrameReference;
 
-// mouse clicked co-ordinate
-let mouseClicked = {
-	x: 0,
-	y: 0
-};
-
-// mouse movement co-ordinate 
-let mouseMove = {
-	x: 0,
-	y: 0
-};
-
 // Window load event
 window.onload = function () {
 
@@ -108,18 +92,6 @@ window.addEventListener('resize', function () {
 	drawing1.animate();
 });
 
-// adding mouse click event listener
-window.addEventListener('click', function(e) {
-	mouseClicked.x = e.x;
-	mouseClicked.y = e.y; 
-});
-
-// adding mouse over event listener
-window.addEventListener('mousemove', function(e) {
-	mouseMove.x = e.x;
-	mouseMove.y = e.y;
-});
-
 // Class DrawField
 
 class DrawField {
@@ -149,11 +121,17 @@ class DrawField {
 		// setting initial timer
 		this.timer = 0;
 
+		// dot matrix cell size
+		this.cellSize = 10;
+
+		// dot matrix pixel size
+		this.pixelSize = 2;
+
 		console.log('DrawField started...');	
 	}
 
 	// private draw method
-	#draw () {		
+	#drawLine (x, y) {		
 
 		// beginning the drawing path
 		this.#ctx.beginPath();
@@ -162,13 +140,13 @@ class DrawField {
 		this.#ctx.strokeStyle = 'white';
 
 		// Setting stroke width
-		this.#ctx.lineWidth = 5;
+		this.#ctx.lineWidth = 1;
 
 		// Moving to starting point for drawing
-		this.#ctx.moveTo(mouseClicked.x, mouseClicked.y);
+		this.#ctx.moveTo(x, y);
 
 		// Drawing to the given length
-		this.#ctx.lineTo(mouseMove.x, mouseMove.y);
+		this.#ctx.lineTo(x + this.pixelSize, y + this.pixelSize);
 
 		// Drawing into the canvas using stroke method
 		this.#ctx.stroke();
@@ -191,8 +169,17 @@ class DrawField {
 			// Clearing previous animation frame
 			this.#ctx.clearRect(0, 0, this.#width, this.#height);
 
-			// Calling draw method
-			this.#draw();	
+			// dot matrix by cell size and pixel size
+			// drawing in column
+			for (var y = 0; y < this.#height; y += this.cellSize) {
+				// drawing in row
+				for (var x = 0; x < this.#width; x += this.cellSize) {
+
+					// Calling drawLine method
+					this.#drawLine(x, y);					
+				}
+			}
+
 
 			this.timer = 0;					
 		
@@ -210,6 +197,6 @@ class DrawField {
 
 ---
 
-[&#10094; Previous Topic](./mouse-movement-animation.md)&emsp;[Next Topic &#10095;](./dot-matrix-grid.md)
+[&#10094; Previous Topic](./delta-time.md)&emsp;[Next Topic &#10095;](./dot-matrix-grid.md)
 
 [&#8962; Goto Home Page](../README.md)
