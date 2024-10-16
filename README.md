@@ -58,6 +58,6 @@ This reference licensed under the [MIT license](LICENSE). Feel free to use, modi
 
 ## Contact
 
-If you have any questions or need further assistance, please feel free to reach me at [Email](mailto:resulttext)
+If you have any questions or need further assistance, please feel free to reach me by referring [My Github Profile](https://github.com/ag-sanjjeev/)
 
 Thanks for reviewing this reference notes!
